@@ -6,9 +6,7 @@ import { create, getAllItems } from './controllers/ItemController.js';
 
 // Подсоединение MongoDB
 mongoose
-  .connect(
-    'mongodb+srv://admin:gMqQCj2GJdSdNIrz@cluster0.icufnus.mongodb.net/?retryWrites=true&w=majority'
-  )
+  .connect(process.env.MONGO)
   .then(() => {
     console.log('Mongo started');
   })
@@ -25,4 +23,10 @@ app.use(cors());
 app.get('/', getAllItems);
 app.post('/item', create);
 
-app.listen(5000, () => console.log('API is working!'));
+app.listen(process.env.PORT || 5000, (err) => {
+  if (err) {
+    return console.log(err);
+  }
+
+  console.log('Server started');
+});
